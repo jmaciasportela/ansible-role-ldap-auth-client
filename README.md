@@ -18,25 +18,42 @@ See [vars/main.yml](https://github.com/jnv/ansible-role-ldap-auth-client/blob/ma
 ## Example Playbook
 
 ```
-roles:
-  - role: jnv.ldap-auth-client
-      tags: ldap
+- name: Install and configure LDAP auth client package
+  become: true
+  roles:
+    - role: ldap-auth-client
       ldap_auth_config:
-        ldapns/base-dn:
-          type: string
-          value: "dc=example,dc=net"
-        ldapns/ldap-server:
-          type: string
-          value: "ldaps://ldap.example.net"
-        pam_password:
-          type: select
-          value: exop
         dbrootlogin:
           type: boolean
           value: false
+        rootbinddn:
+          type: string
+          value: "cn=ldapadm,dc=test,dc=local"
+        rootbinpw:
+          type: password
+          value: superpassw0rd
+        dblogin:
+          type: boolean
+          value: false
+        ldapns/base-dn:
+          type: string
+          value: "dc=test,dc=local"
+        ldapns/ldap_version:
+          type: select
+          value: 3
+        ldapns/ldap-server:
+          type: string
+          value: "ldap://test.ldap.local"
+        pam_password:
+          type: select
+          value: exop
 ```
+
+Credits
+-------
+
+https://github.com/jnv/ansible-role-ldap-auth-client
 
 License
 -------
-
 GPLv2
